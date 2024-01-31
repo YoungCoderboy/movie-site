@@ -1,79 +1,91 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect } from 'react'
+import { BrowserRouter as Router, Route, Link, Routes } from 'react-router-dom'
 
-import axios, { all } from "axios";
-import Loader from "./component/Loader";
-import Stars from "./component/Stars";
+import axios, { all } from 'axios'
+import Loader from './component/Loader'
+import Stars from './component/Stars'
+import Info from './Info'
+import { useMyContext } from './MyContext'
 
 function Lp() {
-    const url = "https://api.tvmaze.com/search/shows?q=all";
-  const [Data, setData] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [genres, setGenres] = useState(["All"]);
-  const [currGen, setCurrGen] = useState("All");
+  const url = 'https://api.tvmaze.com/search/shows?q=all'
+  const [Data, setData] = useState([])
+  const [loading, setLoading] = useState(true)
+  const [genres, setGenres] = useState(['All'])
+  const [currGen, setCurrGen] = useState('All')
+  const { globalState, setGlobalState } = useMyContext()
 
   const getFeeds = async () => {
     try {
-      const response = await axios.get(url);
-      const result = response.data;
+      const response = await axios.get(url)
+      const result = response.data
       // console.log(result);
-      setData(result);
+      setData(result)
       // Data.slice(20);
       // console.log(Data);
-      setLoading(false);
+      setLoading(false)
     } catch (error) {
-      setLoading(true);
-      console.error(error);
+      setLoading(true)
+      console.error(error)
     }
-  };
+  }
+
+  const findData = (id) => {
+    const data = Data.filter((ele) => {
+      return ele.show.id == id
+    })
+
+    setGlobalState(data[0])
+  }
 
   useEffect(() => {
-    getFeeds();
-  }, []);
+    getFeeds()
+  }, [])
   useEffect(() => {
     let allGenera = Data.map((item) => {
       return item.show.genres.map((element) => {
-        return element;
-      });
-    });
-    allGenera = allGenera.flat(1);
+        return element
+      })
+    })
+    allGenera = allGenera.flat(1)
 
     // console.log(allGenera);
-    const setOfGenera = new Set(allGenera);
-    setOfGenera.add("All");
+    const setOfGenera = new Set(allGenera)
+    setOfGenera.add('All')
     // setOfGenera.sort();
-    setGenres([...setOfGenera]);
-  }, [Data]);
+    setGenres([...setOfGenera])
+  }, [Data])
 
-  const [currentPage, setCurrentPage] = useState(1);
-  const [searchTerm, setSearchTerm] = useState("");
-  const [status, setStatus] = useState("All"); // Default to show all ministries
+  const [currentPage, setCurrentPage] = useState(1)
+  const [searchTerm, setSearchTerm] = useState('')
+  const [status, setStatus] = useState('All') // Default to show all ministries
   // Default to no sorting
-  const itemsPerPage = 5;
+  const itemsPerPage = 5
 
   // Apply filters based on search, ministry, and sentiment
   const filteredData = Data.filter((item) => {
     return (
       item.show.name.toLowerCase().includes(searchTerm.toLowerCase()) &&
-      (status === "All" || item.show.status === status) &&
-      (currGen === "All" || item.show.genres.includes(currGen))
-    );
-  });
+      (status === 'All' || item.show.status === status) &&
+      (currGen === 'All' || item.show.genres.includes(currGen))
+    )
+  })
 
   // Calculate the total number of pages
-  const totalPages = Math.ceil(filteredData.length / itemsPerPage);
+  const totalPages = Math.ceil(filteredData.length / itemsPerPage)
 
   // Ensure currentPage is within a valid range
-  const validPage = Math.min(Math.max(currentPage, 1), totalPages);
+  const validPage = Math.min(Math.max(currentPage, 1), totalPages)
 
   // Calculate the index of the first and last items to display on the current page
-  const indexOfLastItem = validPage * itemsPerPage;
-  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentItems = filteredData.slice(indexOfFirstItem, indexOfLastItem);
+  const indexOfLastItem = validPage * itemsPerPage
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage
+  const currentItems = filteredData.slice(indexOfFirstItem, indexOfLastItem)
 
   // Function to handle page changes
   const handlePageChange = (pageNumber) => {
-    setCurrentPage(pageNumber);
-  };
+    setCurrentPage(pageNumber)
+  }
 
   return (
     <div className="App bg-[#25274d] pt-7">
@@ -103,7 +115,7 @@ function Lp() {
           onChange={(e) => setCurrGen(e.target.value)}
         >
           {genres.map((item) => {
-            return <option value={item}>{item}</option>;
+            return <option value={item}>{item}</option>
           })}
         </select>
       </div>
@@ -120,7 +132,12 @@ function Lp() {
           <div className="w-3/4">
             <div className="grid grid-cols-2 gap-4">
               <h2 className="text-3xl font-semibold text-white mb-4">
-                {item.show.name}
+                <Link to="/info" onClick={() => findData(item.show.id)}>
+                  {item.show.name}
+                </Link>
+                <Routes>
+                  <Route path="/info" render={(props) => <Info {...props} />} />
+                </Routes>
               </h2>
               <div className="text-white text-xl text-right">
                 {item.show.rating.average ? (
@@ -157,8 +174,8 @@ function Lp() {
               onClick={() => handlePageChange(index + 1)}
               className={`px-3 py-2 mr-2 rounded ${
                 validPage === index + 1
-                  ? "bg-blue-500 text-white"
-                  : "bg-gray-300 text-gray-700"
+                  ? 'bg-blue-500 text-white'
+                  : 'bg-gray-300 text-gray-700'
               }`}
             >
               {index + 1}
@@ -167,6 +184,6 @@ function Lp() {
         </div>
       </div>
     </div>
-  );
-} ;
-export default Lp;
+  )
+}
+export default Lp
