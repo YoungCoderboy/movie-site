@@ -1,9 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useMyContext } from "./MyContext";
 
-
-
-
 const Info = ({ ...props }) => {
   const { globalState, setGlobalState } = useMyContext();
 
@@ -25,22 +22,25 @@ const Info = ({ ...props }) => {
   //   }, []);
   const openNewTab = () => {
     const linkToOpen = globalState.show.url; // Replace with your desired link
-    const newTab = window.open(linkToOpen, '_blank');
+    const newTab = window.open(linkToOpen, "_blank");
     if (newTab) {
       newTab.opener = null; // Disassociate the new tab from the current page to avoid pop-up blockers
     } else {
-      console.error('Pop-up blocked. Please allow pop-ups for this site.');
+      console.error("Pop-up blocked. Please allow pop-ups for this site.");
     }
   };
-  
-  
-  const summ = globalState.show.summary.substring(3, globalState.show.summary.length - 4);
-  return (
-    <div className="bg-[url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTFR-LWh9fmtCfiEQjlCgicippSwxossXwSbw&usqp=CAU')] h-screen">
-      <h1 className="text-4xl font-bold text-center mb-8 text-white ">
-        TV Shows
-      </h1>
 
+  const summ = globalState.show.summary.substring(
+    3,
+    globalState.show.summary.length - 4
+  );
+  return (
+    <div className="bg-[url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTFR-LWh9fmtCfiEQjlCgicippSwxossXwSbw&usqp=CAU')] h-full p-1">
+      <div className=" flex justify-center">
+        <h1 className="text-blue-200 rounded-xl font-bold text-6xl p-5 bg-black mb-4 mt-5">
+          QuadB-Tech
+        </h1>
+      </div>
       <div className="show-card bg-gray-300 p-6 rounded-xl shadow-md mb-8 flex flex-row text-xl mx-8 border-4 border-blue-800">
         <div>
           <img
@@ -67,12 +67,13 @@ const Info = ({ ...props }) => {
             Status: {globalState.show.status}
           </p>
           <p className="text-gray-700 mb-4 ">
-            Summary: {summ}
-            
+            Summary: {summ.replace(/<\/?b>/g, "")}
           </p>
           <p className="text-gray-700 mb-4">
-            Country : {globalState.show.network.country ? globalState.show.network.country.name : null}
-            
+            Country :{" "}
+            {globalState.show.network.country
+              ? globalState.show.network.country.name
+              : null}
           </p>
           <p className="text-gray-700 mb-4">Runtime: {globalState.show.name}</p>
           <p className="text-gray-700 mb-4">
@@ -82,7 +83,10 @@ const Info = ({ ...props }) => {
             Days and Timing: {globalState.show.name}
           </p>
           <p className="text-gray-700 mb-4">Network: {globalState.show.name}</p>
-          <button className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 transition" onClick={openNewTab}>
+          <button
+            className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 transition"
+            onClick={openNewTab}
+          >
             Watch Now
           </button>
         </div>

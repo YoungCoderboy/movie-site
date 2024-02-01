@@ -89,18 +89,26 @@ function Lp() {
 
   return (
     <div className="App bg-[url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTFR-LWh9fmtCfiEQjlCgicippSwxossXwSbw&usqp=CAU')] h-full pt-7">
-    <h1 className="text-blue-300 text-6xl">Movie RHub</h1>
+      <div className=" flex justify-center">
+        <h1 className="text-blue-200 rounded-xl font-bold text-6xl p-5 bg-black mb-4">
+          QuadB-Tech
+        </h1>
+      </div>
       <div className="mb-4 ml-8">
         <input
           type="text"
           placeholder="Search movie show..."
-          className="px-2 py-1 border rounded"
+          className="px-2 py-1  rounded border-2 border-black"
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
         />
+        <span className="text-black text-xl rounded-md p-1 font-bold ml-4 bg-white border-2 border-black">
+          Status :
+        </span>
         <select
-          className="ml-4 px-2 py-1 border rounded"
+          className="ml-4 px-2 py-1 border rounded border-2 border-black"
           value={status}
+          placeholder="Status"
           onChange={(e) => setStatus(e.target.value)}
         >
           <option value="All">All</option>
@@ -110,8 +118,11 @@ function Lp() {
           <option value="In Development">In Development</option>
           {/* Add more ministries here */}
         </select>
+        <span className="text-black text-xl rounded-md p-1 font-bold ml-4 bg-white border-2 border-black">
+          Genre :
+        </span>
         <select
-          className="ml-4 px-2 py-1 border rounded"
+          className="ml-4 px-2 py-1 border rounded border-2 border-black"
           value={currGen}
           onChange={(e) => setCurrGen(e.target.value)}
         >
@@ -156,7 +167,9 @@ function Lp() {
                   <div className="flex">
                     <p className="p-1  text-2xl">Rating :</p>
                     <div className="flex">
-                      <p className="p-1 mr-2 text-2xl"><b>?</b></p>
+                      <p className="p-1 mr-2 text-2xl">
+                        <b>?</b>
+                      </p>
 
                       <BsStar className="fill-orange-300  mt-3" />
                     </div>
