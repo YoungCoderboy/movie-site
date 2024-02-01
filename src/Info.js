@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { useMyContext } from "./MyContext";
 
+
+
+
 const Info = ({ ...props }) => {
   const { globalState, setGlobalState } = useMyContext();
 
@@ -20,6 +23,18 @@ const Info = ({ ...props }) => {
 
   //     fetchData();
   //   }, []);
+  const openNewTab = () => {
+    const linkToOpen = globalState.show.url; // Replace with your desired link
+    const newTab = window.open(linkToOpen, '_blank');
+    if (newTab) {
+      newTab.opener = null; // Disassociate the new tab from the current page to avoid pop-up blockers
+    } else {
+      console.error('Pop-up blocked. Please allow pop-ups for this site.');
+    }
+  };
+  
+  
+  const summ = globalState.show.summary.substring(3, globalState.show.summary.length - 4);
   return (
     <div className="bg-[url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTFR-LWh9fmtCfiEQjlCgicippSwxossXwSbw&usqp=CAU')] h-screen">
       <h1 className="text-4xl font-bold text-center mb-8 text-white ">
@@ -31,10 +46,10 @@ const Info = ({ ...props }) => {
           <img
             alt="hello"
             src={globalState.show.image ? globalState.show.image.medium : null}
-            className="w-48 h-48  rounded-md mb-4 mr-32  border-2 border-black"
+            className="w-48 h-48  rounded-md mb-4 mr-32 ml-8  border-2 border-black"
           />
         </div>
-        <div>
+        <div className="ml-24">
           <h2 className="text-3xl font-bold mb-4">{globalState.show.name}</h2>
           <p className="text-gray-700 mb-4">
             Rating: {globalState.show.rating.average}{" "}
@@ -52,11 +67,12 @@ const Info = ({ ...props }) => {
             Status: {globalState.show.status}
           </p>
           <p className="text-gray-700 mb-4 ">
-            Summary: {globalState.show.summary}
+            Summary: {summ}
+            
           </p>
           <p className="text-gray-700 mb-4">
-            Country:{" "}
-            {globalState.show.county ? globalState.show.county.name : null}
+            Country : {globalState.show.network.country ? globalState.show.network.country.name : null}
+            
           </p>
           <p className="text-gray-700 mb-4">Runtime: {globalState.show.name}</p>
           <p className="text-gray-700 mb-4">
@@ -66,7 +82,7 @@ const Info = ({ ...props }) => {
             Days and Timing: {globalState.show.name}
           </p>
           <p className="text-gray-700 mb-4">Network: {globalState.show.name}</p>
-          <button className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 transition">
+          <button className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 transition" onClick={openNewTab}>
             Watch Now
           </button>
         </div>
