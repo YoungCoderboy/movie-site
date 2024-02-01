@@ -88,7 +88,8 @@ function Lp() {
   };
 
   return (
-    <div className="App bg-[url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTFR-LWh9fmtCfiEQjlCgicippSwxossXwSbw&usqp=CAU')] h-screen pt-7">
+    <div className="App bg-[url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTFR-LWh9fmtCfiEQjlCgicippSwxossXwSbw&usqp=CAU')] h-full pt-7">
+    <h1 className="text-blue-300 text-6xl">Movie RHub</h1>
       <div className="mb-4 ml-8">
         <input
           type="text"
@@ -155,7 +156,7 @@ function Lp() {
                   <div className="flex">
                     <p className="p-1  text-2xl">Rating :</p>
                     <div className="flex">
-                      <p className="p-1 mr-2 text-2xl">{0}</p>
+                      <p className="p-1 mr-2 text-2xl"><b>?</b></p>
 
                       <BsStar className="fill-orange-300  mt-3" />
                     </div>
@@ -178,7 +179,7 @@ function Lp() {
       ))}
       <div className="flex">
         <div className="text-white mr-8  pt-4 ml-8 text-xl">
-          <h2>Page no : </h2>
+          <h2 className="bg-gray-200 text-black rounded-lg p-2">Page no : </h2>
         </div>
         <div className="mt-4 ">
           {Array.from({ length: totalPages }).map((_, index) => (
